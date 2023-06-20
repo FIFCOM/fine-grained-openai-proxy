@@ -95,7 +95,6 @@ func OpenAIAPIHandler(c *fiber.Ctx) error {
 	}
 	fgKey.RemainCalls -= 1
 	_ = fgSvc.Update(fgKey)
-	// c.Response().Header.Del(fiber.HeaderServer)
 
 	// change Authorization header
 	apikeySvc := svc.ApiKeySvc{}
@@ -118,7 +117,4 @@ func Proxy(c *fiber.Ctx) {
 		})
 	}
 	c.Response().Header.Del(fiber.HeaderServer)
-	// print ctx Header and Body
-	println(c.Request().Header.String())
-	println(string(c.Request().Body()))
 }
