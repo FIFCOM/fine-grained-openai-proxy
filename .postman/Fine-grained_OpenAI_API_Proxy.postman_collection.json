@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "39263a9b-8e45-4dfd-a7a1-99173c1ee639",
+		"name": "Fine-grained OpenAI API Proxy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin/apikey",
+			"item": [
+				{
+					"name": "apikey/all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/apikey/all?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"apikey",
+								"all"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin token"
+								}
+							]
+						},
+						"description": "Get all OpenAI API keys\n\nPath:\n\n\t/admin/apikey/all\n\nArgs:\n\n\tGET auth: Admin token"
+					},
+					"response": []
+				},
+				{
+					"name": "apikey/insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "key",
+									"value": "YOUR_OPENAI_API_KEY_HERE",
+									"description": "OpenAI API key",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/apikey/insert?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"apikey",
+								"insert"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin Token"
+								}
+							]
+						},
+						"description": "Insert a new OpenAI API key\n\nPath:\n\n\t/admin/apikey/insert\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST key: OpenAI API key"
+					},
+					"response": []
+				},
+				{
+					"name": "apikey/delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "OpenAI API key id",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/apikey/delete?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"apikey",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin Token"
+								}
+							]
+						},
+						"description": "Delete an OpenAI API key\n\nPath:\n\n\t/admin/apikey/delete\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST id: OpenAI API key id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin/fgkey",
+			"item": [
+				{
+					"name": "fgkey/all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/fgkey/all?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"fgkey",
+								"all"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin token"
+								}
+							]
+						},
+						"description": "Get all fine-grained keys\n\nPath:\n\n\t/admin/fgkey/all\n\nArgs:\n\n\tGET auth: Admin token"
+					},
+					"response": []
+				},
+				{
+					"name": "fgkey/insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "parent_id",
+									"value": "1",
+									"description": "Parent OpenAI API Key ID",
+									"type": "default"
+								},
+								{
+									"key": "type",
+									"value": "whitelist",
+									"description": "whitelist or blacklist",
+									"type": "default"
+								},
+								{
+									"key": "list",
+									"value": "[49,50,51,52,53]",
+									"description": "OpenAI Model ID JSON int arr (e.g. [1, 2, 3])",
+									"type": "default"
+								},
+								{
+									"key": "expire",
+									"value": "2023-12-31",
+									"description": "Expire time (e.g. 2023-12-31)",
+									"type": "default"
+								},
+								{
+									"key": "remain_calls",
+									"value": "9999",
+									"description": "Remain calls (int)",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/fgkey/insert?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"fgkey",
+								"insert"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin token"
+								}
+							]
+						},
+						"description": "Insert new fine-grained key\n\nPath:\n\n\t/admin/fgkey/insert\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST parent_id: Parent OpenAI API Key ID\n\tPOST type: whitelist or blacklist\n\tPOST list: OpenAI Model ID JSON int arr (e.g. [1, 2, 3])\n\tPOST expire: Expire time (e.g. 2023-12-31)\n\tPOST remain_calls: Remain calls (int)"
+					},
+					"response": []
+				},
+				{
+					"name": "fgkey/update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Fine-grained key ID",
+									"type": "default"
+								},
+								{
+									"key": "parent_id",
+									"value": "1",
+									"description": "Parent OpenAI API Key ID",
+									"type": "default"
+								},
+								{
+									"key": "type",
+									"value": "whitelist",
+									"description": "whitelist or blacklist",
+									"type": "default"
+								},
+								{
+									"key": "list",
+									"value": "[49,50,51,52,53]",
+									"description": "OpenAI Model ID JSON int arr (e.g. [1, 2, 3])",
+									"type": "default"
+								},
+								{
+									"key": "expire",
+									"value": "2024-12-31",
+									"description": "Expire time (e.g. 2023-12-31)",
+									"type": "default"
+								},
+								{
+									"key": "remain_calls",
+									"value": "10000",
+									"description": "Remain calls (int)",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/fgkey/update?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"fgkey",
+								"update"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin token"
+								}
+							]
+						},
+						"description": "Update fine-grained key\n\nPath:\n\n\t/admin/fgkey/update\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST id: Fine-grained key ID\n\tPOST parent_id: Parent OpenAI API Key ID\n\tPOST type: whitelist or blacklist\n\tPOST list: OpenAI Model ID JSON int arr (e.g. [1, 2, 3])\n\tPOST expire: Expire time (e.g. 2023-12-31)\n\tPOST remain_calls: Remain calls (int)"
+					},
+					"response": []
+				},
+				{
+					"name": "fgkey/delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Fine-grained key ID",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/fgkey/delete?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"fgkey",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin token"
+								}
+							]
+						},
+						"description": "Delete fine-grained key\n\nPath:\n\n\t/admin/fgkey/delete\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST id: Fine-grained key ID"
+					},
+					"response": []
+				},
+				{
+					"name": "fgkey/parentid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "parent_id",
+									"value": "1",
+									"description": "Parent OpenAI API Key ID",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/fgkey/parentid?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"fgkey",
+								"parentid"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789"
+								}
+							]
+						},
+						"description": "Get fine-grained keys by parent ID\n\nPath:\n\n\t/admin/fgkey/parentid\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST parent_id: Parent OpenAI API Key ID"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin/model",
+			"item": [
+				{
+					"name": "model/init",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "OpenAI ApiKey ID",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/model/init?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"model",
+								"init"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789"
+								}
+							]
+						},
+						"description": "re-fetch all available models from OpenAI, and compare them with db.\nIf there are new models, truncate db and insert new models.\n\nPath:\n\n\t/admin/model/init\n\nArgs:\n\n\tGET auth: Admin Token\n\tPOST id: OpenAI ApiKey ID"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "chat/completions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"user-agent": true,
+							"host": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_FINE_GRAINED_KEY_HERE",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"gpt-3.5-turbo\",\r\n    \"messages\": [\r\n        {\r\n            \"role\": \"user\",\r\n            \"content\": \"Who won the world series in 2020?\"\r\n        },\r\n        {\r\n            \"role\": \"assistant\",\r\n            \"content\": \"The Los Angeles Dodgers won the World Series in 2020.\"\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"content\": \"Where was it played?\"\r\n        }\r\n    ],\r\n    \"temperature\": 1,\r\n    \"top_p\": 1,\r\n    \"n\": 1,\r\n    \"stream\": false,\r\n    \"max_tokens\": 250,\r\n    \"presence_penalty\": 0,\r\n    \"frequency_penalty\": 0\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/chat/completions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"chat",
+								"completions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "chat/completions",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "default"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_FINE_GRAINED_KEY_HERE",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"model\": \"gpt-3.5-turbo\",\r\n    \"messages\": [\r\n        {\r\n            \"role\": \"user\",\r\n            \"content\": \"Who won the world series in 2020?\"\r\n        },\r\n        {\r\n            \"role\": \"assistant\",\r\n            \"content\": \"The Los Angeles Dodgers won the World Series in 2020.\"\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"content\": \"Where was it played?\"\r\n        }\r\n    ],\r\n    \"temperature\": 1,\r\n    \"top_p\": 1,\r\n    \"n\": 1,\r\n    \"stream\": false,\r\n    \"max_tokens\": 250,\r\n    \"presence_penalty\": 0,\r\n    \"frequency_penalty\": 0\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/v1/chat/completions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"chat",
+										"completions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 20 Jun 2023 05:33:04 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "469"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, must-revalidate"
+								},
+								{
+									"key": "Openai-Model",
+									"value": "gpt-3.5-turbo-0301"
+								},
+								{
+									"key": "Openai-Organization",
+									"value": "acme-sulsho"
+								},
+								{
+									"key": "Openai-Processing-Ms",
+									"value": "1522"
+								},
+								{
+									"key": "Openai-Version",
+									"value": "2020-10-01"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15724800; includeSubDomains"
+								},
+								{
+									"key": "X-Ratelimit-Limit-Requests",
+									"value": "3500"
+								},
+								{
+									"key": "X-Ratelimit-Limit-Tokens",
+									"value": "90000"
+								},
+								{
+									"key": "X-Ratelimit-Remaining-Requests",
+									"value": "3499"
+								},
+								{
+									"key": "X-Ratelimit-Remaining-Tokens",
+									"value": "89719"
+								},
+								{
+									"key": "X-Ratelimit-Reset-Requests",
+									"value": "17ms"
+								},
+								{
+									"key": "X-Ratelimit-Reset-Tokens",
+									"value": "186ms"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "46a3353eae2367869b317f2438520c7f"
+								},
+								{
+									"key": "Cf-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Cf-Ray",
+									"value": "7da1a2858bec2ae5-LAX"
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"chatcmpl-7TOHAURzkSLB9L3DwR9c9PG2rAh5H\",\n    \"object\": \"chat.completion\",\n    \"created\": 1687239184,\n    \"model\": \"gpt-3.5-turbo-0301\",\n    \"usage\": {\n        \"prompt_tokens\": 46,\n        \"completion_tokens\": 17,\n        \"total_tokens\": 63\n    },\n    \"choices\": [\n        {\n            \"message\": {\n                \"role\": \"assistant\",\n                \"content\": \"The 2020 World Series was played at Globe Life Field in Arlington, Texas.\"\n            },\n            \"finish_reason\": \"stop\",\n            \"index\": 0\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
