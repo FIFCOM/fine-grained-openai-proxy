@@ -42,7 +42,7 @@ func OpenAIAPIHandler(c *fiber.Ctx) error {
 		timeNow := time.Now().Unix()
 		if err != nil && fgKey.RemainCalls > 0 && fgKey.Expire <= timeNow {
 			Proxy(c) // invalid token
-			return err
+			return nil
 		}
 		fgKeyOK = true
 	} else {
@@ -68,7 +68,7 @@ func OpenAIAPIHandler(c *fiber.Ctx) error {
 	model, err := modelSvc.ByName(models.(string))
 	if err != nil {
 		Proxy(c) // model not in the list of allowed models
-		return err
+		return nil
 	}
 	modelOK := false
 	var arr []int64
