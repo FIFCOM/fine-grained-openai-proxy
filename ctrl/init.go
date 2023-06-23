@@ -43,5 +43,6 @@ func InitRouter(app *fiber.App, allowAdmin ...bool) {
 	admin.Post("/fgkey/Update", UpdateFineGrainedKey)
 	admin.Post("/fgkey/delete", DeleteFineGrainedKey)
 	// Model
+	admin.Get("/model/all", AllModels)
 	admin.Post("/model/init", InitModels)
 }

@@ -61,7 +61,7 @@ go build .
 ./fine-grained-openai-api-proxy -admin=true -port=8080
 ```
 
-- 当前项目未实现前端Web节目，因此需使用[Postman](https://www.postman.com/downloads/)与后端进行交互。请导入`./.postman/Fine-grained_OpenAI_API_Proxy.postman_collection.json`到Postman中。
+- 当前项目未实现前端Web界面，因此需使用[Postman](https://www.postman.com/downloads/)与后端进行交互。请导入`./.postman/Fine-grained_OpenAI_API_Proxy.postman_collection.json`到Postman中。
 
 - 初次使用，请初始化数据库。
     1. 选择`apikey/insert`接口，在Body中填入您的OpenAI API Key，点击Send发送请求。这将会保存您的OpenAI API Key到数据库中。

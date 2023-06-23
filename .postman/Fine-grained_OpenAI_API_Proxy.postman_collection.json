@@ -414,6 +414,35 @@
 						"description": "re-fetch all available models from OpenAI, and compare them with db.\nIf there are new models, truncate db and insert new models.\n\nPath:\n\n\t/admin/model/init\n\nArgs:\n\n\tGET auth: Admin Token\n\tPOST id: OpenAI ApiKey ID"
 					},
 					"response": []
+				},
+				{
+					"name": "model/all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/model/all?auth=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"model",
+								"all"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "123456789",
+									"description": "Admin Token"
+								}
+							]
+						},
+						"description": "return all available models from db.\n\nPath:\n\n\t/admin/model/all\n\nArgs:\n\n\tGET auth: Admin Token"
+					},
+					"response": []
 				}
 			]
 		},

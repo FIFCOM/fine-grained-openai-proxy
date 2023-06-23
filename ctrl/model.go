@@ -114,3 +114,27 @@ func InitModels(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(Resp{Code: 0, Data: "Init models success, No new models"})
 }
+
+/*
+AllModels return all available models from db.
+
+Path:
+
+	/admin/model/all
+
+Args:
+
+	GET auth: Admin Token
+*/
+func AllModels(c *fiber.Ctx) error {
+	modelSvc := svc.ModelSvc{}
+	models, err := modelSvc.All()
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(Resp{Code: 1, Error: "Read db models failed: " + err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(Resp{
+		Code: 0,
+		Data: models,
+	})
+}
