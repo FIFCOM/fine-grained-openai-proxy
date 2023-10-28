@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "39263a9b-8e45-4dfd-a7a1-99173c1ee639",
+		"_postman_id": "a8cfd27f-856d-4996-9be7-96271a782990",
 		"name": "Fine-grained OpenAI API Proxy",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 	},
 	"item": [
 		{
@@ -47,7 +47,7 @@
 							"urlencoded": [
 								{
 									"key": "key",
-									"value": "YOUR_OPENAI_API_KEY_HERE",
+									"value": "YOUR_OPENAI_API_KEY",
 									"description": "OpenAI API key",
 									"type": "default"
 								}
@@ -180,13 +180,13 @@
 								},
 								{
 									"key": "list",
-									"value": "[49,50,51,52,53]",
+									"value": "[49,50,51,52,53,54,55,56,57]",
 									"description": "OpenAI Model ID JSON int arr (e.g. [1, 2, 3])",
 									"type": "default"
 								},
 								{
 									"key": "expire",
-									"value": "2023-12-31",
+									"value": "2025-12-31",
 									"description": "Expire time (e.g. 2023-12-31)",
 									"type": "default"
 								},
@@ -367,7 +367,7 @@
 								}
 							]
 						},
-						"description": "Get fine-grained keys by parent ID\n\nPath:\n\n\t/admin/fgkey/parentid\n\nArgs:\n\n\tGET auth: Admin token\n\tPOST parent_id: Parent OpenAI API Key ID"
+						"description": "Get fine-grained keys by parent ID\n\nPath:\n\n```\n/admin/fgkey/parentid\n\n ```\n\nArgs:\n\n```\nGET auth: Admin token\nPOST parent_id: Parent OpenAI API Key ID\n\n ```"
 					},
 					"response": []
 				}
@@ -435,12 +435,10 @@
 							"query": [
 								{
 									"key": "auth",
-									"value": "123456789",
-									"description": "Admin Token"
+									"value": "123456789"
 								}
 							]
-						},
-						"description": "return all available models from db.\n\nPath:\n\n\t/admin/model/all\n\nArgs:\n\n\tGET auth: Admin Token"
+						}
 					},
 					"response": []
 				}

@@ -2,8 +2,10 @@ package ctrl
 
 import (
 	"fine-grained-openai-proxy/svc"
-	"github.com/gofiber/fiber/v2"
+	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 /*
@@ -17,18 +19,15 @@ Args:
 
 	GET auth: Admin token
 */
-func AllApiKeys(c *fiber.Ctx) error {
-	apikeySvc := svc.ApiKeySvc{}
-	apikeys, err := apikeySvc.All()
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).
-			JSON(Resp{Code: 1, Error: err.Error()})
-	}
+func AllApiKeys(c *gin.Context) {
+    apikeySvc := svc.ApiKeySvc{}
+    apikeys, err := apikeySvc.All()
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, Resp{Code: 1, Error: err.Error()})
+        return
+    }
 
-	return c.Status(fiber.StatusOK).JSON(Resp{
-		Code: 0,
-		Data: apikeys,
-	})
+    c.JSON(http.StatusOK, Resp{Code: 0, Data: apikeys})
 }
 
 /*
@@ -43,19 +42,19 @@ Args:
 	GET auth: Admin token
 	POST key: OpenAI API key
 */
-func InsertApiKey(c *fiber.Ctx) error {
-	key := c.FormValue("key")
-	apikeySvc := svc.ApiKeySvc{}
-	err := apikeySvc.Insert(key)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).
-			JSON(Resp{Code: 1, Error: "Insert API Key Error: " + err.Error()})
-	}
+func InsertApiKey(c *gin.Context) {
+    key := c.PostForm("key")
+    apikeySvc := svc.ApiKeySvc{}
+    err := apikeySvc.Insert(key)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, Resp{Code: 1, Error: "Insert API Key Error: " + err.Error()})
+        return
+    }
 
-	return c.Status(fiber.StatusOK).JSON(Resp{
-		Code: 0,
-		Msg:  "Insert API key successfully",
-	})
+    c.JSON(http.StatusOK, Resp{
+        Code: 0,
+        Msg:  "Insert API key successfully",
+    })
 }
 
 /*
@@ -70,22 +69,22 @@ Args:
 	GET auth: Admin token
 	POST id: OpenAI API key id
 */
-func DeleteApiKey(c *fiber.Ctx) error {
-	ids := c.FormValue("id")
-	id, err := strconv.ParseInt(ids, 10, 64)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).
-			JSON(Resp{Code: 1, Error: "Delete API Key Error: " + err.Error()})
-	}
+func DeleteApiKey(c *gin.Context) {
+    ids := c.PostForm("id")
+    id, err := strconv.ParseInt(ids, 10, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, Resp{Code: 1, Error: "Delete API Key Error: " + err.Error()})
+        return
+    }
 
-	apikeySvc := svc.ApiKeySvc{}
-	err = apikeySvc.Delete(&svc.ApiKey{ID: id})
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).
-			JSON(Resp{Code: 1, Error: "Delete API Key Error: " + err.Error()})
-	}
+    apikeySvc := svc.ApiKeySvc{}
+    err = apikeySvc.Delete(&svc.ApiKey{ID: id})
+    if err != nil {
+        c.JSON(http.StatusBadRequest, Resp{Code: 1, Error: "Delete API Key Error: " + err.Error()})
+        return
+    }
 
-	return c.Status(fiber.StatusOK).JSON(Resp{
-		Code: 0, Msg: "Delete API key successfully",
-	})
+    c.JSON(http.StatusOK, Resp{
+        Code: 0, Msg: "Delete API key successfully",
+    })
 }

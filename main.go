@@ -5,8 +5,9 @@ import (
 	"fine-grained-openai-proxy/ctrl"
 	"flag"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -21,9 +22,9 @@ func main() {
 
 	conf.AdminToken = *adminToken
 
-	app := fiber.New()
-	ctrl.InitRouter(app, *allowAdmin)
-	if err := app.Listen(conf.Port); err != nil {
+	r := gin.Default()
+	ctrl.InitRouter(r, *allowAdmin)
+	if err := r.Run(conf.Port); err != nil {
 		fmt.Printf("Start fine-grained openai proxy error : %s", err.Error())
 		os.Exit(1)
 	}

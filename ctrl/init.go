@@ -2,7 +2,9 @@ package ctrl
 
 import (
 	"fine-grained-openai-proxy/conf"
-	"github.com/gofiber/fiber/v2"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Resp struct {
@@ -13,36 +15,37 @@ type Resp struct {
 }
 
 // AuthMiddleware is a middleware to check _GET["auth"] == conf.AdminToken
-func AuthMiddleware() fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		auth := c.Query("auth")
-		if auth != conf.AdminToken {
-			return c.Status(fiber.StatusUnauthorized).
-				JSON(Resp{Code: 1, Error: "auth failed"})
-		}
-		return c.Next()
-	}
+func AuthMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        auth := c.Query("auth")
+        if auth != conf.AdminToken {
+            c.JSON(http.StatusUnauthorized, Resp{Code: 1, Error: "auth failed"})
+            c.Abort()
+            return
+        }
+        c.Next()
+    }
 }
 
-func InitRouter(app *fiber.App, allowAdmin ...bool) {
-	app.All("/v1/*", OpenAIAPIHandler)
+func InitRouter(router *gin.Engine, allowAdmin ...bool) {
+    router.Any("/v1/*any", gin.WrapF(Proxy))
 
-	if !allowAdmin[0] {
-		return
-	}
-	admin := app.Group("/admin")
-	admin.Use(AuthMiddleware())
-	// ApiKey
-	admin.Get("/apikey/all", AllApiKeys)
-	admin.Post("/apikey/insert", InsertApiKey)
-	admin.Post("/apikey/delete", DeleteApiKey)
-	// FineGrainedKey
-	admin.Get("/fgkey/all", AllFineGrainedKeys)
-	admin.Post("/fgkey/parentid", FineGrainedKeysByParentID)
-	admin.Post("/fgkey/insert", InsertFineGrainedKey)
-	admin.Post("/fgkey/Update", UpdateFineGrainedKey)
-	admin.Post("/fgkey/delete", DeleteFineGrainedKey)
-	// Model
-	admin.Get("/model/all", AllModels)
-	admin.Post("/model/init", InitModels)
+    if !allowAdmin[0] {
+        return
+    }
+    admin := router.Group("/admin")
+    admin.Use(AuthMiddleware())
+    // ApiKey
+    admin.GET("/apikey/all", AllApiKeys)
+    admin.POST("/apikey/insert", InsertApiKey)
+    admin.POST("/apikey/delete", DeleteApiKey)
+    // FineGrainedKey
+    admin.GET("/fgkey/all", AllFineGrainedKeys)
+    admin.POST("/fgkey/parentid", FineGrainedKeysByParentID)
+    admin.POST("/fgkey/insert", InsertFineGrainedKey)
+    admin.POST("/fgkey/Update", UpdateFineGrainedKey)
+    admin.POST("/fgkey/delete", DeleteFineGrainedKey)
+    // Model
+    admin.GET("/model/all", AllModels)
+    admin.POST("/model/init", InitModels)
 }
