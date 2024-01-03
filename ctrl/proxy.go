@@ -16,7 +16,7 @@ import (
 )
 
 // Proxy proxy request to OpenAI
-// 
+//
 // Note: this function is http.HandlerFunc, not gin.HandlerFunc,
 // so use gin.WrapF(Proxy) to convert it to gin.HandlerFunc
 func Proxy(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,7 @@ func Proxy(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// r.Body is io.ReadCloser, it will be closed after read, so we need to assign it
+	// r.Body is io.ReadCloser, it will be closed or wiped after read, so we need to re-write it
 	r.Body = io.NopCloser(strings.NewReader(string(body)))
 
 	// json parse body to var param
@@ -93,14 +93,19 @@ func Proxy(w http.ResponseWriter, r *http.Request) {
 			w.Header().Add(name, value)
 		}
 	}
+	rsp.Header.Del("Transfer-Encoding")
 
 	head := map[string]string{
 		"Cache-Control":                    "no-store",
 		"access-control-allow-origin":      "*",
 		"access-control-allow-credentials": "true",
-		"Transfer-Encoding":                "chunked",
 		"Connection":                       "keep-alive",
 	}
+	content_type := rsp.Header.Get("Content-Type")
+	if content_type == "text/event-stream" {
+		head["Transfer-Encoding"] = "chunked"
+	}
+
 	for k, v := range head {
 		if _, ok := rsp.Header[k]; !ok {
 			w.Header().Set(k, v)
@@ -114,16 +119,26 @@ func Proxy(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(rsp.StatusCode)
 
-	scanner := bufio.NewScanner(rsp.Body)
-	for scanner.Scan() {
-		_, _ = w.Write([]byte(strconv.Itoa(len(scanner.Text())) + "\r\n"))
-		_, _ = w.Write(scanner.Bytes())
-		_, _ = w.Write([]byte("\r\n"))
-		w.(http.Flusher).Flush()
-	}
+	if content_type == "text/event-stream" {
+		// stream output to client
+		scanner := bufio.NewScanner(rsp.Body)
+		for scanner.Scan() {
+			_, _ = w.Write([]byte(strconv.Itoa(len(scanner.Text())) + "\r\n"))
+			_, _ = w.Write(scanner.Bytes())
+			_, _ = w.Write([]byte("\r\n"))
+			w.(http.Flusher).Flush()
+		}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("failed to read response: %v", err)
+		if err := scanner.Err(); err != nil {
+			log.Fatalf("failed to read response: %v", err)
+		}
+	} else {
+		// simple copy response body to client
+		_, err = io.Copy(w, rsp.Body)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 

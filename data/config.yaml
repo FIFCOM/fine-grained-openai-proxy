@@ -1,0 +1,4 @@
+admin_token: "123456789"
+port: "8080"
+sqlite_path: "./data/oapi-proxy.db"
+openai_api_base_url: "https://api.openai.com/"
